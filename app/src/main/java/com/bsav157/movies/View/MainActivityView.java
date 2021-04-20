@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,7 +30,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivityView extends AppCompatActivity implements InterfacesMVP.View {
+public class MainActivityView extends AppCompatActivity implements InterfacesMVP.View, SearchView.OnQueryTextListener {
 
     private InterfacesMVP.Presenter presenter;
     private RecyclerView recyclerMovies;
@@ -37,6 +38,7 @@ public class MainActivityView extends AppCompatActivity implements InterfacesMVP
     private GridLayoutManager layoutManager;
     private Dialog dialogLoading, dialogDetailsMovie;
     private Context context = this;
+    private SearchView searchViewMovie;
     // Elementos del Constrain "constrain_offline"
     private ConstraintLayout constrainOffline;
     private Button botonReintentar;
@@ -53,7 +55,11 @@ public class MainActivityView extends AppCompatActivity implements InterfacesMVP
 
     void initItems(){
         presenter = new Presenter(this);
+
         recyclerMovies = findViewById(R.id.recycler_carga);
+        searchViewMovie = findViewById(R.id.search_movie);
+        searchViewMovie.setOnQueryTextListener(this);
+
         layoutManager = new GridLayoutManager(context, 3, GridLayoutManager.VERTICAL, false);
 
         dialogLoading = new Dialog(context);
@@ -133,12 +139,13 @@ public class MainActivityView extends AppCompatActivity implements InterfacesMVP
 
     @Override
     public void loadRecycler(ModelMovies modelMovies) {
-        adapterMovies = new AdapterMovies(modelMovies, getApplicationContext(), presenter);
+        adapterMovies = new AdapterMovies(modelMovies.getResults(), getApplicationContext(), presenter);
         recyclerMovies.setHasFixedSize(false);
         recyclerMovies.setLayoutManager(layoutManager);
         recyclerMovies.setAdapter(adapterMovies);
 
         constrainOffline.setVisibility(View.GONE);
+        searchViewMovie.setVisibility(View.VISIBLE);
         recyclerMovies.setVisibility(View.VISIBLE);
     }
 
@@ -172,5 +179,16 @@ public class MainActivityView extends AppCompatActivity implements InterfacesMVP
 
         dialogDetailsMovie.show();
 
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        adapterMovies.filter(newText);
+        return false;
     }
 }
