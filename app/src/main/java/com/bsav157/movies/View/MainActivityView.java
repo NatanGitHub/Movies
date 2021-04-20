@@ -159,10 +159,11 @@ public class MainActivityView extends AppCompatActivity implements InterfacesMVP
     public void showDetailsMovie(ModelMovies.Results modelMovie) {
 
         ImageView imageViewBackdrop;
-        TextView textViewDescription;
+        TextView textViewDescription, textViewTitle;
 
         imageViewBackdrop = dialogDetailsMovie.findViewById(R.id.image_backdrop_path);
         textViewDescription = dialogDetailsMovie.findViewById(R.id.description_movie);
+        textViewTitle = dialogDetailsMovie.findViewById(R.id.title_movie);
 
         Glide.with(context)
                 .load(Extras.baseUrlImages + modelMovie.getBackdrop_path())
@@ -175,10 +176,16 @@ public class MainActivityView extends AppCompatActivity implements InterfacesMVP
             }
         });
 
+        textViewTitle.setText( modelMovie.getTitle() );
         textViewDescription.setText( modelMovie.getOverview() );
 
         dialogDetailsMovie.show();
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
     }
 
     @Override
