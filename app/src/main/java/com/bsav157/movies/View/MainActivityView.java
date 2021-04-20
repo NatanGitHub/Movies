@@ -2,6 +2,7 @@ package com.bsav157.movies.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.widget.Toast;
 
