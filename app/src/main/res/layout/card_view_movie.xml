@@ -4,8 +4,10 @@
     android:layout_height="190dp"
     android:id="@+id/card_movie"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardBackgroundColor="@color/black_white"
     app:cardElevation="12dp"
     app:cardCornerRadius="10dp"
+    app:cardPreventCornerOverlap="false"
     app:cardUseCompatPadding="true">
 
     <ImageView
