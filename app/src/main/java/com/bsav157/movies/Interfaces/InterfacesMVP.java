@@ -12,6 +12,7 @@ public interface InterfacesMVP {
         void isOffline();
         void onDownloadFailure(String message);
         void loadRecycler(ModelMovies modelMovies);
+        void showDetailsMovie(ModelMovies.Results modelMovie);
     }
 
     interface Interactor{
@@ -24,6 +25,7 @@ public interface InterfacesMVP {
         void onDownloadFailure(String message);
         void showLoading();
         void finishLoading();
+        void showDetailsMovie(ModelMovies.Results modelMovie);
         void downloadData(Context context);
     }
 

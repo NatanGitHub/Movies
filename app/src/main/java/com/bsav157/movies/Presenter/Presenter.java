@@ -52,6 +52,13 @@ public class Presenter implements InterfacesMVP.Presenter {
     }
 
     @Override
+    public void showDetailsMovie(ModelMovies.Results modelMovie) {
+        if(view != null){
+            view.showDetailsMovie(modelMovie);
+        }
+    }
+
+    @Override
     public void downloadData(Context context) {
         if(interactor != null){
             interactor.downloadData(context);
