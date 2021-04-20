@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">Movies</string>
-
-    <string name="base_url_images">https://image.tmdb.org/t/p/w500</string>
-
+    <string name="title_main">TheMovieDb</string>
+    <string name="offline">Sin Conexión a Internet</string>
+    <string name="service_break">Sin Respuesta del Servidor</string>
+    <string name="reintentar">Reintentar</string>
 
 </resources>

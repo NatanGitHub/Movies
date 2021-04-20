@@ -2,14 +2,11 @@ package com.bsav157.movies.Interactor;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.widget.Toast;
 
-import com.bsav157.movies.Adapters.AdapterMovies;
 import com.bsav157.movies.Interfaces.Api;
 import com.bsav157.movies.Interfaces.InterfacesMVP;
 import com.bsav157.movies.ModelMovies;
-import com.bsav157.movies.View.Extras;
-import com.bsav157.movies.View.MainActivityView;
+import com.bsav157.movies.Extras;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -43,6 +40,8 @@ public class Interactor implements InterfacesMVP.Interactor {
                 return null;
             }
 
+            presenter.showLoading();
+
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl("https://api.themoviedb.org/3/discover/")
                     .addConverterFactory(GsonConverterFactory.create())
@@ -54,15 +53,20 @@ public class Interactor implements InterfacesMVP.Interactor {
             modelMoviesCall.enqueue(new Callback<ModelMovies>() {
                 @Override
                 public void onResponse(Call<ModelMovies> call, Response<ModelMovies> response) {
-                    if(response.isSuccessful())
+                    if(response.isSuccessful()){
                         presenter.loadRecycler(response.body());
-                    else
+                        presenter.finishLoading();
+                    }
+                    else{
                         presenter.onDownloadFailure(response.message());
+                        presenter.finishLoading();
+                    }
                 }
 
                 @Override
                 public void onFailure(Call<ModelMovies> call, Throwable t) {
                     presenter.onDownloadFailure(t.getMessage());
+                    presenter.finishLoading();
                 }
             });
 

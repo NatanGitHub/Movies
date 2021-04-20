@@ -1,4 +1,4 @@
-package com.bsav157.movies.View;
+package com.bsav157.movies;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
