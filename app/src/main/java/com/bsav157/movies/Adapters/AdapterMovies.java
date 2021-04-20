@@ -14,7 +14,6 @@ import com.bsav157.movies.ModelMovies;
 import com.bsav157.movies.R;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +34,6 @@ public class AdapterMovies extends RecyclerView.Adapter<AdapterMovies.ViewHolder
     }
 
     public void filter(String busqueda){
-
         if(busqueda.length() == 0){
             modelMovies.clear();
             modelMovies.addAll(modelMoviesOrigin);
@@ -50,7 +48,6 @@ public class AdapterMovies extends RecyclerView.Adapter<AdapterMovies.ViewHolder
             }
         }
         notifyDataSetChanged();
-
     }
 
     @NonNull

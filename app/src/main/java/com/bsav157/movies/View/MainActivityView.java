@@ -33,12 +33,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivityView extends AppCompatActivity implements InterfacesMVP.View, SearchView.OnQueryTextListener {
 
-    private InterfacesMVP.Presenter presenter;
+    private Context context = this;
+
+    private InterfacesMVP.Presenter presenter = new Presenter(this);
     private RecyclerView recyclerMovies;
     private AdapterMovies adapterMovies;
+    private ImageView exit;
     private GridLayoutManager layoutManager;
     private Dialog dialogLoading, dialogDetailsMovie;
-    private Context context = this;
     private SearchView searchViewMovie;
     // Elementos del Constrain "constrain_offline"
     private ConstraintLayout constrainOffline;
@@ -52,28 +54,43 @@ public class MainActivityView extends AppCompatActivity implements InterfacesMVP
         setContentView(R.layout.activity_main);
         initItems();
         initDialogDetailsMovie();
+        initDialogLoading();
+        initItemsConstrainOffline();
     }
 
     void initItems(){
-        presenter = new Presenter(this);
-
         recyclerMovies = findViewById(R.id.recycler_carga);
+        exit = findViewById(R.id.exit);
+        exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         searchViewMovie = findViewById(R.id.search_movie);
         searchViewMovie.setOnQueryTextListener(this);
-
         layoutManager = new GridLayoutManager(context, 3, GridLayoutManager.VERTICAL, false);
 
+        presenter.downloadData(context);
+    }
+
+    void initDialogDetailsMovie(){
+        dialogDetailsMovie = new Dialog(context);
+        dialogDetailsMovie.setContentView(R.layout.show_details_movie);
+        Extras.sizeDialog(dialogDetailsMovie);
+    }
+
+    void initDialogLoading(){
         dialogLoading = new Dialog(context);
         dialogLoading.setContentView(R.layout.loading);
         dialogLoading.setCancelable(false);
+    }
 
-        // Zona para elementos del Constrain "constrain_offline"
+    void initItemsConstrainOffline(){
         constrainOffline = findViewById(R.id.constrain_offline);
         botonReintentar = findViewById(R.id.boton_reintentar_descarga);
         imageMessage = findViewById(R.id.imageView);
         textViewMessage = findViewById(R.id.text_view_message);
-
-        presenter.downloadData(context);
     }
 
     @Override
@@ -148,12 +165,6 @@ public class MainActivityView extends AppCompatActivity implements InterfacesMVP
         constrainOffline.setVisibility(View.GONE);
         searchViewMovie.setVisibility(View.VISIBLE);
         recyclerMovies.setVisibility(View.VISIBLE);
-    }
-
-    void initDialogDetailsMovie(){
-        dialogDetailsMovie = new Dialog(context);
-        dialogDetailsMovie.setContentView(R.layout.show_details_movie);
-        Extras.sizeDialog(dialogDetailsMovie);
     }
 
     @Override
