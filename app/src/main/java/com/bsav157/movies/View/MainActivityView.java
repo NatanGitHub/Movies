@@ -23,6 +23,7 @@ import com.bsav157.movies.ModelMovies;
 import com.bsav157.movies.Presenter.Presenter;
 import com.bsav157.movies.R;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -167,6 +168,7 @@ public class MainActivityView extends AppCompatActivity implements InterfacesMVP
 
         Glide.with(context)
                 .load(Extras.baseUrlImages + modelMovie.getBackdrop_path())
+                .transition(DrawableTransitionOptions.withCrossFade())
                 .into(imageViewBackdrop);
 
         runOnUiThread(new Runnable() {
