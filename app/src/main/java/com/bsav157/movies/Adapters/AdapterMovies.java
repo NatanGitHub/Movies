@@ -8,8 +8,11 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bsav157.movies.Extras;
+import com.bsav157.movies.Interfaces.InterfacesMVP;
 import com.bsav157.movies.ModelMovies;
 import com.bsav157.movies.R;
 import com.bumptech.glide.Glide;
@@ -18,11 +21,12 @@ public class AdapterMovies extends RecyclerView.Adapter<AdapterMovies.ViewHolder
 
     private ModelMovies modelMovies;
     private Context context;
-    String baseUrlImages = "https://image.tmdb.org/t/p/w500";
+    private InterfacesMVP.Presenter presenter;
 
-    public AdapterMovies(ModelMovies modelMovies, Context context){
+    public AdapterMovies(ModelMovies modelMovies, Context context, InterfacesMVP.Presenter presenter){
         this.modelMovies = modelMovies;
         this.context = context;
+        this.presenter = presenter;
     }
 
     @NonNull
@@ -35,6 +39,12 @@ public class AdapterMovies extends RecyclerView.Adapter<AdapterMovies.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull AdapterMovies.ViewHolder holder, int position) {
         holder.loadData( modelMovies.getResults().get(position) );
+        holder.cardMovie.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.showDetailsMovie(modelMovies.getResults().get(position));
+            }
+        });
     }
 
     @Override
@@ -45,16 +55,17 @@ public class AdapterMovies extends RecyclerView.Adapter<AdapterMovies.ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView posterMovie;
+        CardView cardMovie;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             posterMovie = itemView.findViewById(R.id.poster_movie);
+            cardMovie = itemView.findViewById(R.id.card_movie);
         }
 
         void loadData(ModelMovies.Results results){
             Glide.with(context)
-                    .load(baseUrlImages + results.getPoster_path())
-                    //.override(200, 250)
+                    .load(Extras.baseUrlImages + results.getPoster_path())
                     .into(posterMovie);
         }
 
