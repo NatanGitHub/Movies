@@ -13,6 +13,7 @@ import com.bsav157.movies.Interfaces.InterfacesMVP;
 import com.bsav157.movies.ModelMovies;
 import com.bsav157.movies.R;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -89,6 +90,7 @@ public class AdapterMovies extends RecyclerView.Adapter<AdapterMovies.ViewHolder
         void loadData(ModelMovies.Results results){
             Glide.with(context)
                     .load(Extras.baseUrlImages + results.getPoster_path())
+                    .transition(DrawableTransitionOptions.withCrossFade())
                     .into(posterMovie);
         }
 
