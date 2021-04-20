@@ -1,5 +1,7 @@
 package com.bsav157.movies.Interfaces;
 
+import android.content.Context;
+
 import com.bsav157.movies.ModelMovies;
 
 public interface InterfacesMVP {
@@ -8,21 +10,21 @@ public interface InterfacesMVP {
         void showLoading();
         void finishLoading();
         void isOffline();
-        void onDownloadFailure();
+        void onDownloadFailure(String message);
         void loadRecycler(ModelMovies modelMovies);
     }
 
     interface Interactor{
-        void downloadData();
+        void downloadData(Context context);
     }
 
     interface Presenter{
         void loadRecycler(ModelMovies modelMovies);
         void isOffline();
-        void onDownloadFailure();
+        void onDownloadFailure(String message);
         void showLoading();
         void finishLoading();
-        void downloadData();
+        void downloadData(Context context);
     }
 
 }

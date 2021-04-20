@@ -28,6 +28,7 @@ public class MainActivityView extends AppCompatActivity implements InterfacesMVP
     private RecyclerView recyclerMovies;
     private AdapterMovies adapterMovies;
     private GridLayoutManager layoutManager;
+    private Dialog dialogLoading;
     private Context context = this;
 
     @Override
@@ -35,33 +36,37 @@ public class MainActivityView extends AppCompatActivity implements InterfacesMVP
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initItems();
-        presenter.downloadData();
+        presenter.downloadData(context);
     }
 
     void initItems(){
         presenter = new Presenter(this);
         recyclerMovies = findViewById(R.id.recycler_carga);
-        layoutManager = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
+        layoutManager = new GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false);
+
+        dialogLoading = new Dialog(context);
+        dialogLoading.setContentView(R.layout.loading);
     }
 
     @Override
     public void showLoading() {
-
+        dialogLoading.show();
     }
 
     @Override
     public void finishLoading() {
-
+        dialogLoading.dismiss();
     }
 
     @Override
     public void isOffline() {
-
+        System.out.println("SIN INTERNET");
     }
 
     @Override
-    public void onDownloadFailure() {
-
+    public void onDownloadFailure(String message) {
+        Toast.makeText(context, "FALLO EN LA DESCARGA", Toast.LENGTH_SHORT).show();
+        System.out.println("Error de conexion: " + message);
     }
 
     @Override
